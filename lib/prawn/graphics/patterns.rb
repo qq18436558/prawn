@@ -1,4 +1,4 @@
-# encoding: utf-8
+require "digest/sha1"
 
 # patterns.rb : Implements axial & radial gradients
 #
@@ -78,21 +78,24 @@ module Prawn
       def gradient_registry_key(gradient, opts)
         _x1, _y1, x2, y2, transformation = gradient_coordinates(gradient, opts)
 
-        if gradient[1].is_a?(Array) # axial
-          [
-            transformation,
-            x2, y2,
-            gradient[2], gradient[3]
-          ]
-        else # radial
-          [
-            transformation,
-            x2, y2,
-            gradient[1],
-            gradient[3],
-            gradient[4], gradient[5]
-          ]
-        end.hash
+        key =
+          if gradient[1].is_a?(Array) # axial
+            [
+              transformation,
+              x2, y2,
+              gradient[2], gradient[3]
+            ]
+          else # radial
+            [
+              transformation,
+              x2, y2,
+              gradient[1],
+              gradient[3],
+              gradient[4], gradient[5]
+            ]
+          end
+
+        Digest::SHA1.hexdigest(Marshal.dump(key))
       end
 
       def gradient_registry
