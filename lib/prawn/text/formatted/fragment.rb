@@ -69,7 +69,8 @@ module Prawn
         end
 
         def underline_points
-          y = baseline - 1.25
+          #y = baseline - 1.25
+          y = baseline - 3.50
           [[left, y], [right, y]]
         end
 
