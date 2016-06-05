@@ -606,7 +606,12 @@ module Prawn
 
           strikethrough = fragment.styles.include?(:strikethrough)
           if strikethrough
-            @document.stroke_line(fragment.strikethrough_points)
+            left_tmp = fragment.strikethrough_points[0][0]
+            right_tmp = fragment.strikethrough_points[1][0]
+            y_new = fragment.strikethrough_points[0][1]
+            x_new = left_tmp + (right_tmp-left_tmp)/2
+            @document.stroke_circle [x_new, y_new], (right_tmp-left_tmp)/2+5
+            #@document.stroke_line(fragment.strikethrough_points)
           end
         end
       end
